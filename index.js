@@ -11,7 +11,7 @@ let audioBuffer = null;
 
 const numberOfLines = 60;
 const waveformHistory = [];
-const frameInterval = 33; // 30 fps
+const frameInterval = 33; //fps
 
 let lastFrameTime = 0;
 let animationFrameId = null;
@@ -21,7 +21,7 @@ async function initAudio() {
     statusDiv.textContent = "Loading";
     const response = await fetch(AUDIO_URL);
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`Error: ${response.status}`);
     }
     const arrayBuffer = await response.arrayBuffer();
 
@@ -33,7 +33,7 @@ async function initAudio() {
     // Decode audio data
     audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
-    statusDiv.textContent = "Unknown Pleasures";
+    statusDiv.textContent = "Unknown Pleasures"; // Set to title of project
     playButton.disabled = false;
   } catch (error) {
     console.error("Error initializing audio:", error);
@@ -43,7 +43,7 @@ async function initAudio() {
 
 function setupAndPlay() {
   if (!audioBuffer) {
-    statusDiv.textContent = "Error: Audio not loaded";
+    statusDiv.textContent = "Error: Audio didn't load";
     return;
   }
 
@@ -192,8 +192,7 @@ function draw() {
 
     waveformHistory.forEach((historicalData, j) => {
       ctx.beginPath();
-      // Add padding at the top and bottom
-      const padding = canvas.height * 0.05;
+      const padding = canvas.height * 0.05; // Add padding at the top and bottom
       const usableHeight = canvas.height - padding * 2;
       const baseY =
         canvas.height - padding - j * (usableHeight / numberOfLines);
@@ -230,7 +229,7 @@ function draw() {
       }
 
       ctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
-      ctx.lineWidth = 2 + (numberOfLines - j) * 0.025; // Thicker at bottom
+      ctx.lineWidth = 2 + (numberOfLines - j) * 0.025; // Thicker at the bottom
       ctx.stroke();
     });
   }
