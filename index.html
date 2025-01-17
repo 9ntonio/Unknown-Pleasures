@@ -3,7 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Unkown Pleasures</title>
+    <title>Unknown Pleasures</title>
+    <!-- Google Font Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
       body {
         background-color: black;
@@ -12,162 +20,45 @@
         align-items: center;
         height: 100vh;
         margin: 0;
-        font-family: Arial, sans-serif;
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
       }
       #visualizer {
         width: 300px;
         height: 600px;
       }
-      #fileInput {
-        position: absolute;
+      #controls {
+        position: fixed;
         top: 20px;
         left: 20px;
+      }
+      button {
+        background: #333;
         color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-family: inherit;
+        font-weight: 900;
+        font-size: 16px;
+      }
+      button:hover {
+        background: #444;
+      }
+      #status {
+        color: white;
+        margin-top: 10px;
+        font-size: 16px;
+        font-weight: 400;
       }
     </style>
   </head>
   <body>
-    <input type="file" id="fileInput" accept="audio/*" />
+    <div id="controls">
+      <button id="playButton">Play</button>
+      <div id="status"></div>
+    </div>
     <canvas id="visualizer"></canvas>
-
-    <script>
-      const fileInput = document.getElementById("fileInput");
-      const canvas = document.getElementById("visualizer");
-      const ctx = canvas.getContext("2d");
-      let audioContext, analyser, source;
-
-      const numberOfLines = 63;
-      const waveformHistory = [];
-      const frameInterval = 33; // 30 fps
-
-      let lastFrameTime = 0;
-
-      fileInput.addEventListener("change", function (e) {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-          const arrayBuffer = e.target.result;
-          setupAudio(arrayBuffer);
-        };
-
-        reader.readAsArrayBuffer(file);
-      });
-
-      function setupAudio(arrayBuffer) {
-        if (audioContext) audioContext.close();
-
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        analyser.fftSize = 512;
-
-        waveformHistory.length = 0;
-
-        audioContext.decodeAudioData(arrayBuffer, function (buffer) {
-          source = audioContext.createBufferSource();
-          source.buffer = buffer;
-          source.connect(analyser);
-          analyser.connect(audioContext.destination);
-          source.start(0);
-          draw();
-        });
-      }
-
-      function makeSymmetric(dataArray) {
-        const result = new Uint8Array(dataArray.length);
-
-        for (let i = 0; i < dataArray.length; i++) {
-          // Create a symmetric pattern by mirroring around the center
-          const normalizedPos = i / (dataArray.length - 1);
-          const symmetricFactor = Math.sin(normalizedPos * Math.PI);
-
-          // Blend the original value with the symmetric pattern
-          result[i] = dataArray[i] * symmetricFactor;
-        }
-
-        // Ensure start and end points are exactly the same (zero)
-        result[0] = 0;
-        result[result.length - 1] = 0;
-
-        return result;
-      }
-
-      function draw() {
-        canvas.width = canvas.clientWidth;
-        canvas.height = canvas.clientHeight;
-        const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
-        const lineGap = canvas.height / numberOfLines;
-
-        function renderFrame(currentTime) {
-          requestAnimationFrame(renderFrame);
-
-          if (currentTime - lastFrameTime < frameInterval) {
-            return;
-          }
-
-          lastFrameTime = currentTime;
-
-          analyser.getByteFrequencyData(dataArray);
-
-          // Make the waveform symmetric
-          const symmetricData = makeSymmetric(dataArray);
-          waveformHistory.unshift([...symmetricData]);
-
-          if (waveformHistory.length > numberOfLines) {
-            waveformHistory.pop();
-          }
-
-          ctx.fillStyle = "rgb(0, 0, 0)";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-          waveformHistory.forEach((historicalData, j) => {
-            ctx.beginPath();
-            // Add padding at the top and bottom
-            const padding = canvas.height * 0.1;
-            const usableHeight = canvas.height - padding * 2;
-            const baseY =
-              canvas.height - padding - j * (usableHeight / numberOfLines);
-
-            for (let i = 0; i < bufferLength; i++) {
-              const x = (i / bufferLength) * canvas.width;
-              const frequencyValue = historicalData[i];
-              const perspectiveScale = 1 - (j / numberOfLines) * 0.6;
-
-              const y =
-                baseY -
-                frequencyValue *
-                  perspectiveScale *
-                  0.5 *
-                  Math.sin((i / bufferLength) * Math.PI);
-
-              if (i === 0) {
-                ctx.moveTo(x, baseY); // Start at baseline
-              } else if (i === bufferLength - 1) {
-                ctx.lineTo(x, baseY); // End at baseline
-              } else {
-                const prevX = ((i - 1) / bufferLength) * canvas.width;
-                const prevFreq = historicalData[i - 1];
-                const prevY =
-                  baseY -
-                  prevFreq *
-                    perspectiveScale *
-                    0.5 *
-                    Math.sin(((i - 1) / bufferLength) * Math.PI);
-
-                const cpX = (x + prevX) / 2;
-                ctx.quadraticCurveTo(prevX, prevY, cpX, (y + prevY) / 2);
-              }
-            }
-
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
-            ctx.lineWidth = 3.5;
-            ctx.stroke();
-          });
-        }
-
-        renderFrame(0);
-      }
-    </script>
+    <script type="module" src="./index.js"></script>
   </body>
 </html>
