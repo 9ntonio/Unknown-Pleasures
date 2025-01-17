@@ -1,16 +1,15 @@
-// Update this URL to your sound file
 const AUDIO_URL = "./disorder.mp3";
 
 const canvas = document.getElementById("visualizer");
 const playButton = document.getElementById("playButton");
-const statusDiv = document.getElementById("status");
+const statusDiv = document.getElementById("site-title");
 const ctx = canvas.getContext("2d");
 
 let audioContext, analyser, source;
 let isPlaying = false;
 let audioBuffer = null;
 
-const numberOfLines = 63;
+const numberOfLines = 60;
 const waveformHistory = [];
 const frameInterval = 33; // 30 fps
 
@@ -19,7 +18,7 @@ let animationFrameId = null;
 
 async function initAudio() {
   try {
-    statusDiv.textContent = "Loading audio...";
+    statusDiv.textContent = "Loading";
     const response = await fetch(AUDIO_URL);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -34,7 +33,7 @@ async function initAudio() {
     // Decode audio data
     audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
-    statusDiv.textContent = "Audio loaded! Click play to start.";
+    statusDiv.textContent = "Unknown Pleasures";
     playButton.disabled = false;
   } catch (error) {
     console.error("Error initializing audio:", error);
@@ -62,7 +61,7 @@ function setupAndPlay() {
 
     // Start fade out animation
     const startTime = performance.now();
-    const fadeOutDuration = 2000;
+    const fadeOutDuration = 3000; // 3 seconds
     const currentWaveforms = [...waveformHistory]; // Save current waveform state
 
     function fadeOut(currentTime) {
@@ -166,7 +165,6 @@ function draw() {
   canvas.height = canvas.clientHeight;
   const bufferLength = analyser.frequencyBinCount;
   const dataArray = new Uint8Array(bufferLength);
-  const lineGap = canvas.height / numberOfLines;
 
   function renderFrame(currentTime) {
     if (!isPlaying) return;
@@ -195,7 +193,7 @@ function draw() {
     waveformHistory.forEach((historicalData, j) => {
       ctx.beginPath();
       // Add padding at the top and bottom
-      const padding = canvas.height * 0.1;
+      const padding = canvas.height * 0.05;
       const usableHeight = canvas.height - padding * 2;
       const baseY =
         canvas.height - padding - j * (usableHeight / numberOfLines);
@@ -232,7 +230,7 @@ function draw() {
       }
 
       ctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
-      ctx.lineWidth = 3.5;
+      ctx.lineWidth = 2 + (numberOfLines - j) * 0.025; // Thicker at bottom
       ctx.stroke();
     });
   }
