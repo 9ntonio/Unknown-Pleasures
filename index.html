@@ -4,34 +4,67 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unknown Pleasures</title>
-    <!-- Google Font Import -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Font optimization: preload critical font files -->
     <link
+      rel="preload"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <!-- Fallback for no-JS -->
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <style>
+      /* Font fallback to prevent layout shift */
+      @font-face {
+        font-family: "Inter-fallback";
+        size-adjust: 107%;
+        ascent-override: 90%;
+        src: local("Arial");
+      }
+
       body {
         background-color: black;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         height: 100vh;
         margin: 0;
         font-family: "Inter", system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
       }
       #visualizer {
         width: 300px;
         height: 600px;
       }
+      #container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
       #controls {
-        position: fixed;
-        top: 20px;
-        left: 20px;
+        margin-bottom: 4rem;
+      }
+      #title {
+        color: white;
+        margin-top: 2.5rem;
+        font-size: 1.9rem;
+        font-weight: 600;
       }
       button {
+        font-synthesis: none;
         background: #333;
         color: white;
         border: none;
@@ -40,7 +73,7 @@
         border-radius: 4px;
         font-family: inherit;
         font-weight: 900;
-        font-size: 16px;
+        font-size: 1rem;
       }
       button:hover {
         background: #444;
@@ -48,17 +81,23 @@
       #status {
         color: white;
         margin-top: 10px;
-        font-size: 16px;
+        font-size: 1rem;
         font-weight: 400;
+        font-display: swap;
       }
     </style>
   </head>
   <body>
-    <div id="controls">
-      <button id="playButton">Play</button>
-      <div id="status"></div>
+    <div id="container">
+      <div id="title">Unknown Pleasures</div>
+
+      <canvas id="visualizer"></canvas>
+
+      <div id="controls">
+        <button id="playButton">Play</button>
+        <div id="status"></div>
+      </div>
     </div>
-    <canvas id="visualizer"></canvas>
     <script type="module" src="./index.js"></script>
   </body>
 </html>
