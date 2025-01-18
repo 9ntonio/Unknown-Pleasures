@@ -1,4 +1,5 @@
 const AUDIO_URL = "./disorder.mp3";
+const CANVAS_PADDING = 0.075;
 
 const canvas = document.getElementById("visualizer");
 const playButton = document.getElementById("playButton");
@@ -82,7 +83,7 @@ function setupAndPlay() {
 
       currentWaveforms.forEach((historicalData, j) => {
         ctx.beginPath();
-        const padding = canvas.height * 0.075;
+        const padding = canvas.height * CANVAS_PADDING;
         const usableHeight = canvas.height - padding * 2;
         const baseY =
           canvas.height - padding - j * (usableHeight / numberOfLines);
@@ -192,7 +193,7 @@ function draw() {
 
     waveformHistory.forEach((historicalData, j) => {
       ctx.beginPath();
-      const padding = canvas.height * 0.075; // Add padding at the top and bottom
+      const padding = canvas.height * CANVAS_PADDING; // Add padding at the top and bottom
       const usableHeight = canvas.height - padding * 2;
       const baseY =
         canvas.height - padding - j * (usableHeight / numberOfLines);
