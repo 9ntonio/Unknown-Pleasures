@@ -1,4 +1,4 @@
-const AUDIO_URL = "./disorder.mp3";
+const AUDIO_URL = "audio/disorder.mp3";
 const CANVAS_PADDING = 0.075;
 
 const canvas = document.getElementById("visualizer");
@@ -10,9 +10,9 @@ let audioContext, analyser, source;
 let isPlaying = false;
 let audioBuffer = null;
 
-const numberOfLines = 60;
+const numberOfLines = 54;
 const waveformHistory = [];
-const frameInterval = 33; //fps
+const frameInterval = 30; //fps
 
 let lastFrameTime = 0;
 let animationFrameId = null;
