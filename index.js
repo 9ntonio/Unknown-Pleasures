@@ -61,7 +61,7 @@ function setupAndPlay() {
 
     // Start fade out animation
     const startTime = performance.now();
-    const fadeOutDuration = 3000; // 3 seconds
+    const fadeOutDuration = 2000; // 2secs
     const currentWaveforms = [...waveformHistory]; // Save current waveform state
 
     function fadeOut(currentTime) {
@@ -82,7 +82,7 @@ function setupAndPlay() {
 
       currentWaveforms.forEach((historicalData, j) => {
         ctx.beginPath();
-        const padding = canvas.height * 0.1;
+        const padding = canvas.height * 0.075;
         const usableHeight = canvas.height - padding * 2;
         const baseY =
           canvas.height - padding - j * (usableHeight / numberOfLines);
@@ -192,7 +192,7 @@ function draw() {
 
     waveformHistory.forEach((historicalData, j) => {
       ctx.beginPath();
-      const padding = canvas.height * 0.05; // Add padding at the top and bottom
+      const padding = canvas.height * 0.075; // Add padding at the top and bottom
       const usableHeight = canvas.height - padding * 2;
       const baseY =
         canvas.height - padding - j * (usableHeight / numberOfLines);
