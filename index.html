@@ -8,14 +8,14 @@
     <!-- Font optimization: preload fonts -->
     <link
       rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
     <!-- Fallback for no-JS -->
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet"
       />
     </noscript>
@@ -109,14 +109,24 @@
       }
       .copy {
         color: white;
+        opacity: 0.75;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 400;
         width: 300px;
         text-align: left;
         font-display: swap;
         line-height: 1.5;
         letter-spacing: 0.01em;
         text-wrap: balance;
+        a {
+          color: white;
+          font-weight: 800;
+          opacity: 1;
+          text-decoration: none;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
       }
       .title {
         color: white;
@@ -143,11 +153,48 @@
       <hr />
 
       <div class="copy">
-        Lorem ipsum odor amet, consectetuer adipiscing elit. Ridiculus semper
-        tempus hendrerit justo cras iaculis ultricies velit ut. Feugiat
-        phasellus donec commodo fames habitasse volutpat ornare nostra. Commodo
-        dui neque diam; est tellus gravida massa facilisi. Lacus sollicitudin
-        sapien inceptos iaculis dictum sapien.
+        <p>
+          In 1979
+          <a
+            href="https://en.wikipedia.org/wiki/Factory_Records"
+            target="_blank"
+            >Factory Records</a
+          >
+          released their 10th album
+          <a
+            href="https://en.wikipedia.org/wiki/Unknown_Pleasures"
+            target="_blank"
+            >Unknown Pleasures</a
+          >
+          by Joy Division. The artwork is credited to both the band &
+          <a
+            href="https://en.wikipedia.org/wiki/Peter_Saville_(graphic_designer)"
+            target="_blank"
+            >Peter Saville</a
+          >. The album cover uses an image of radio waves from pulsar
+          <a href="https://en.wikipedia.org/wiki/CP_1919" target="_blank"
+            >CP 1919</a
+          >. The background is black (instead of white) because Peter Saville
+          said "I was convinced that it was just sexier in black". It is
+          considered one of "the best albums of all time".
+        </p>
+        <p>
+          I'm obsesed with this album. Both musically and artistically. So much
+          so that for some time I've been trying to make an app that would use
+          the album song's as the data for the graph. I've treid before and hit
+          major walls. Recently I've started working on it again and with some
+          major help from
+          <a href="https://www.anthropic.com/" target="_blank">Claude AI</a>
+          here it is.
+        </p>
+        <hr style="margin-bottom: 1rem" />
+        <p>
+          Unknown Pleasures | FACT 10 | 1979
+          <br />
+          &copy; 2019 Warner Music UK Ltd
+          <br />
+          &#8471; 1979, 2019 Warner Music UK Ltd
+        </p>
       </div>
     </div>
     <script type="module" src="./index.js"></script>
