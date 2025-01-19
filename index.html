@@ -54,10 +54,34 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        position: relative;
+      }
+      .visualization-area {
+        position: relative;
+        width: 300px;
+        height: 500px;
       }
       #controls {
-        margin-top: 1rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease;
       }
+
+      .hide-controls #controls {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .hide-controls:hover #controls {
+        opacity: 1;
+        visibility: visible;
+      }
+
       button {
         font-synthesis: none;
         background: #333;
@@ -72,6 +96,10 @@
       }
       button:hover {
         background: #444;
+      }
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
       }
       hr {
         width: 300px;
@@ -105,7 +133,13 @@
     <div id="container">
       <div class="title" id="site-title">Unknown Pleasures</div>
 
-      <canvas id="visualizer"></canvas>
+      <div class="visualization-area">
+        <canvas id="visualizer"></canvas>
+        <div id="controls">
+          <button id="playButton">Play</button>
+        </div>
+      </div>
+
       <hr />
 
       <div class="copy">
@@ -113,11 +147,7 @@
         tempus hendrerit justo cras iaculis ultricies velit ut. Feugiat
         phasellus donec commodo fames habitasse volutpat ornare nostra. Commodo
         dui neque diam; est tellus gravida massa facilisi. Lacus sollicitudin
-        sapien inceptos iaculis dictum sapien.</div
-      >
-
-      <div id="controls">
-        <button id="playButton">Play</button>
+        sapien inceptos iaculis dictum sapien.
       </div>
     </div>
     <script type="module" src="./index.js"></script>

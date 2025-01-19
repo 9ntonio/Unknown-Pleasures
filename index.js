@@ -3,6 +3,7 @@ const CANVAS_PADDING = 0.075;
 
 const canvas = document.getElementById("visualizer");
 const playButton = document.getElementById("playButton");
+const visualizationArea = document.querySelector(".visualization-area");
 const statusDiv = document.getElementById("site-title");
 const ctx = canvas.getContext("2d");
 
@@ -34,7 +35,7 @@ async function initAudio() {
     // Decode audio data
     audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
-    statusDiv.textContent = "Unknown Pleasures"; // Set to title of project
+    statusDiv.textContent = "Unknown Pleasures";
     playButton.disabled = false;
   } catch (error) {
     console.error("Error initializing audio:", error);
@@ -59,25 +60,24 @@ function setupAndPlay() {
     }
     isPlaying = false;
     playButton.textContent = "Play";
+    visualizationArea.classList.remove("hide-controls");
 
     // Start fade out animation
     const startTime = performance.now();
     const fadeOutDuration = 2000; // 2secs
-    const currentWaveforms = [...waveformHistory]; // Save current waveform state
+    const currentWaveforms = [...waveformHistory];
 
     function fadeOut(currentTime) {
       const elapsed = currentTime - startTime;
       const opacity = Math.max(0, 1 - elapsed / fadeOutDuration);
 
       if (elapsed >= fadeOutDuration) {
-        // Clear canvas after fade
         ctx.fillStyle = "rgb(0, 0, 0)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         waveformHistory.length = 0;
         return;
       }
 
-      // Draw frame with fading opacity
       ctx.fillStyle = "rgb(0, 0, 0)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -138,6 +138,7 @@ function setupAndPlay() {
     source.start(0);
     isPlaying = true;
     playButton.textContent = "Stop";
+    visualizationArea.classList.add("hide-controls");
     draw();
   }
 }
@@ -146,15 +147,11 @@ function makeSymmetric(dataArray) {
   const result = new Uint8Array(dataArray.length);
 
   for (let i = 0; i < dataArray.length; i++) {
-    // Create a symmetric pattern by mirroring around the center
     const normalizedPos = i / (dataArray.length - 1);
     const symmetricFactor = Math.sin(normalizedPos * Math.PI);
-
-    // Blend the original value with the symmetric pattern
     result[i] = dataArray[i] * symmetricFactor;
   }
 
-  // Ensure start and end points are exactly the same (zero)
   result[0] = 0;
   result[result.length - 1] = 0;
 
@@ -179,8 +176,6 @@ function draw() {
     lastFrameTime = currentTime;
 
     analyser.getByteFrequencyData(dataArray);
-
-    // Make the waveform symmetric
     const symmetricData = makeSymmetric(dataArray);
     waveformHistory.unshift([...symmetricData]);
 
@@ -193,7 +188,7 @@ function draw() {
 
     waveformHistory.forEach((historicalData, j) => {
       ctx.beginPath();
-      const padding = canvas.height * CANVAS_PADDING; // Add padding at the top and bottom
+      const padding = canvas.height * CANVAS_PADDING;
       const usableHeight = canvas.height - padding * 2;
       const baseY =
         canvas.height - padding - j * (usableHeight / numberOfLines);
@@ -211,9 +206,9 @@ function draw() {
             Math.sin((i / bufferLength) * Math.PI);
 
         if (i === 0) {
-          ctx.moveTo(x, baseY); // Start at baseline
+          ctx.moveTo(x, baseY);
         } else if (i === bufferLength - 1) {
-          ctx.lineTo(x, baseY); // End at baseline
+          ctx.lineTo(x, baseY);
         } else {
           const prevX = ((i - 1) / bufferLength) * canvas.width;
           const prevFreq = historicalData[i - 1];
@@ -230,7 +225,7 @@ function draw() {
       }
 
       ctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
-      ctx.lineWidth = 2 + (numberOfLines - j) * 0.025; // Thicker at the bottom
+      ctx.lineWidth = 2 + (numberOfLines - j) * 0.025;
       ctx.stroke();
     });
   }
@@ -239,7 +234,7 @@ function draw() {
 }
 
 // Initialize event listeners
-playButton.disabled = true; // Disable button until audio is loaded
+playButton.disabled = true;
 playButton.addEventListener("click", setupAndPlay);
 
 // Start loading the audio when the page loads
