@@ -3,6 +3,7 @@ const CANVAS_PADDING = 0.075;
 
 const canvas = document.getElementById("visualizer");
 const playButton = document.getElementById("playButton");
+const playButtonText = document.getElementById("playButtonText");
 const visualizationArea = document.querySelector(".visualization-area");
 const statusDiv = document.getElementById("site-title");
 const ctx = canvas.getContext("2d");
@@ -56,6 +57,7 @@ async function initAudio() {
     statusDiv.textContent = "Unknown Pleasures";
     // Enable the play button now that audio is ready
     playButton.disabled = false;
+    playButtonText.textContent = "INITIATE";
   } catch (error) {
     // Log any errors to console and update UI with error message
     console.error("Error initializing audio:", error);
@@ -92,12 +94,12 @@ function setupAndPlay() {
       cancelAnimationFrame(animationFrameId);
     }
     isPlaying = false;
-    playButton.textContent = "Play";
+    playButtonText.textContent = "INITIATE";
     visualizationArea.classList.remove("hide-controls");
 
     // Start fade out animation
     const startTime = performance.now();
-    const fadeOutDuration = 2000; // 2secs
+    const fadeOutDuration = 1500; // 1.5secs
     const currentWaveforms = [...waveformHistory];
 
     function fadeOut(currentTime) {
@@ -141,7 +143,7 @@ function setupAndPlay() {
 
     // Update state and UI
     isPlaying = true;
-    playButton.textContent = "Stop";
+    playButtonText.textContent = "TERMINATE";
     visualizationArea.classList.add("hide-controls");
     draw(); // Start the visualization
   }
