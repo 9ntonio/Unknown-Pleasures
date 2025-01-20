@@ -8,14 +8,14 @@
     <!-- Font optimization: preload fonts -->
     <link
       rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
     <!-- Fallback for no-JS -->
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
         rel="stylesheet"
       />
     </noscript>
@@ -69,7 +69,7 @@
         z-index: 10;
         opacity: 1;
         visibility: visible;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.5s ease;
       }
 
       .hide-controls #controls {
@@ -99,7 +99,7 @@
       }
       button:disabled {
         cursor: not-allowed;
-        opacity: 0.5;
+        opacity: 0.25;
       }
       hr {
         width: 300px;
@@ -144,6 +144,9 @@
       <div class="title" id="site-title">Unknown Pleasures</div>
 
       <div class="visualization-area">
+        <!-- Canvas element used for efficient real-time drawing of the Unknown Pleasures waveform visualization.
+             Canvas provides better performance than SVG for frequent updates and complex animations,
+             while maintaining precise pixel-level control needed for the audio visualization. -->
         <canvas id="visualizer"></canvas>
         <div id="controls">
           <button id="playButton">Play</button>
