@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unknown Pleasures</title>
+
+    <!-- Font optimization: preload fonts -->
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <!-- Fallback for no-JS -->
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <style>
+      /* Font fallback to prevent layout shift */
+      @font-face {
+        font-family: "Inter-fallback";
+        size-adjust: 107%;
+        ascent-override: 90%;
+        src: local("Arial");
+      }
+
+      body {
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100vh;
+        margin: 0;
+      }
+      #visualizer {
+        width: 300px;
+        height: 500px;
+      }
+      #container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .visualization-area {
+        position: relative;
+        width: 300px;
+        height: 500px;
+      }
+      #controls {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.5s ease;
+      }
+
+      .hide-controls #controls {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .hide-controls:hover #controls {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      button {
+        font-synthesis: none;
+        background: #000;
+        color: white;
+        border: 2px solid white;
+        box-shadow: 0 0 0 0.33rem black;
+        padding: 0.6rem 1.25rem;
+        cursor: pointer;
+        border-radius: 0;
+        font-family: inherit;
+        font-weight: 400;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+
+        #playButtonText {
+          letter-spacing: 0.5em;
+        }
+      }
+
+      button:hover {
+        background: #222;
+      }
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.25;
+      }
+      hr {
+        width: 300px;
+        border: 1px solid white;
+        margin-bottom: 0.75rem;
+        opacity: 0.5;
+      }
+      .copy {
+        color: white;
+        opacity: 0.75;
+        font-size: 14px;
+        font-weight: 400;
+        width: 300px;
+        text-align: left;
+        font-display: swap;
+        line-height: 1.5;
+        letter-spacing: 0.01em;
+        text-wrap: balance;
+        a {
+          color: white;
+          font-weight: 800;
+          opacity: 1;
+          text-decoration: none;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+      }
+      .title {
+        color: white;
+        margin-top: 3rem;
+        margin-bottom: 0.5rem;
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        font-display: swap;
+      }
+      .song-title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        opacity: 1;
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/main-WOxDLqd1.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <div class="title" id="site-title">Unknown Pleasures</div>
+
+      <div class="visualization-area">
+        <!-- Canvas element used for efficient real-time drawing of the Unknown Pleasures waveform visualization.
+             Canvas provides better performance than SVG for frequent updates and complex animations,
+             while maintaining precise pixel-level control needed for the audio visualization. -->
+        <canvas id="visualizer"></canvas>
+        <div id="controls">
+          <button id="playButton">
+            <span class="song-title">Disorder</span>
+            <span id="playButtonText">INITIATE</span>
+          </button>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="copy">
+        <p>
+          In 1979
+          <a
+            href="https://en.wikipedia.org/wiki/Factory_Records"
+            target="_blank"
+            >Factory Records</a
+          >
+          released their 10th album
+          <a
+            href="https://en.wikipedia.org/wiki/Unknown_Pleasures"
+            target="_blank"
+            >Unknown Pleasures</a
+          >
+          by Joy Division. The artwork is credited to both the band &
+          <a
+            href="https://en.wikipedia.org/wiki/Peter_Saville_(graphic_designer)"
+            target="_blank"
+            >Peter Saville</a
+          >. The album cover uses an image of radio waves from pulsar
+          <a href="https://en.wikipedia.org/wiki/CP_1919" target="_blank"
+            >CP 1919</a
+          >. The background is black (instead of white) because Peter Saville
+          said "I was convinced that it was just sexier in black". It is
+          considered one of "the best albums of all time".
+        </p>
+        <p>
+          I'm obsesed with this album, musically & artistically. So much so that
+          for some time I've been trying to make an app that would use the album
+          song's as the data for the graph. I've treid before and hit walls.
+          Recently I've started working on it again and with the help from
+          <a href="https://www.anthropic.com/" target="_blank">Claude</a>, a
+          path was shown. If you're also a nerd like me, here is the
+          <a href="https://github.com/9ntonio/Unknown-Pleasures" target="_blank"
+            >GitHub repo for this project</a
+          >.
+        </p>
+        <hr style="margin-bottom: 1rem" />
+        <p>
+          Unknown Pleasures | FACT 10 | 1979
+          <br />
+          &copy; 2019 Warner Music UK Ltd
+          <br />
+          &#8471; 1979, 2019 Warner Music UK Ltd
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

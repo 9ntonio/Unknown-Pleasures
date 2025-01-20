@@ -1,4 +1,4 @@
-const AUDIO_URL = "audio/disorder.mp3";
+const AUDIO_URL = "./assets/disorder.mp3";
 const CANVAS_PADDING = 0.075;
 
 const canvas = document.getElementById("visualizer");
