@@ -7,6 +7,7 @@ In 1979 [Factory Records](https://en.wikipedia.org/wiki/Factory_Records) release
 I'm obsesed with this album, musically & artistically. So much so that for some time I've been trying to make an app that would use the album song's as the data for the graph. I've treid before and hit walls. Recently I've started working on it again and with the help from [Claude](https://www.anthropic.com/), a path was shown. If you're also a nerd like me, I left a ton of notes in the code for you!
 
 Link to live version: [Unknown Pleasures](https://antonio.almena.io/unknown-pleasures)
+
 My Portfolio: [antonio.almena.io](https://antonio.almena.io)
 
 ---
