@@ -12,6 +12,8 @@ Link to live version: [Unknown Pleasures](https://antonio.almena.io/unknown-plea
 
 My Portfolio: [antonio.almena.io](https://antonio.almena.io)
 
+Blog post: [Unknown pleasures in a brave new world (AI & Creativity)](https://medium.com/@9ntonio/unknown-pleasures-in-a-brave-new-world-ai-creativity-77f5560220bf)
+
 ---
 
 Unknown Pleasures | FACT 10 | 1979  
